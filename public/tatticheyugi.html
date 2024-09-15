@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tattiche Yu-Gi-Oh!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+        }
+        .grid-container {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(5, 100px); /* 5 colonne */
+            grid-template-rows: repeat(2, 150px);   /* 2 righe */
+            gap: 10px;
+        }
+        .rect {
+            background-color: #3498db;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            overflow: hidden;
+            position: relative;
+        }
+        .rect img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        .card-list {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            width: 200px;
+            margin-left: 20px;
+        }
+        .card-list ul {
+            list-style: none;
+            padding: 0;
+        }
+        .card-list li {
+            cursor: pointer;
+            padding: 5px;
+            border-bottom: 1px solid #ccc;
+        }
+        .card-list li:hover {
+            background-color: #ddd;
+        }
+        .card-info {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 250px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+        }
+        .search-bar {
+            margin-bottom: 10px;
+            padding: 5px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        /* Stile per il pulsante con icona "più" */
+        .add-board-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #3498db;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            border: none;
+            margin: 20px auto;
+        }
+        .add-board-btn:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Benvenuto nella pagina delle Tattiche Yu-Gi-Oh!</h1>
+    <p>Clicca su un rettangolo per visualizzare la lista delle carte.</p>
+
+    <div class="container">
+        <div class="grid-container" id="board-container">
+            <div class="grid" id="rect-grid">
+                <!-- 5x2 grid di rettangoli (board principale) -->
+                <div class="rect" data-rect-id="1"></div>
+                <div class="rect" data-rect-id="2"></div>
+                <div class="rect" data-rect-id="3"></div>
+                <div class="rect" data-rect-id="4"></div>
+                <div class="rect" data-rect-id="5"></div>
+                <div class="rect" data-rect-id="6"></div>
+                <div class="rect" data-rect-id="7"></div>
+                <div class="rect" data-rect-id="8"></div>
+                <div class="rect" data-rect-id="9"></div>
+                <div class="rect" data-rect-id="10"></div>
+            </div>
+        </div>
+
+        <!-- Pulsante per aggiungere una nuova board (nuova matrice di rettangoli) -->
+        <button class="add-board-btn" id="add-board-btn">+</button>
+
+        <!-- Lista delle carte con barra di ricerca -->
+        <div class="card-list" id="card-list" style="display: none;">
+            <input type="text" id="search-bar" class="search-bar" placeholder="Cerca una carta...">
+            <ul id="card-names"></ul>
+        </div>
+    </div>
+
+    <!-- Riquadro delle informazioni della carta -->
+    <div class="card-info" id="card-info" style="display: none;">
+        <h3 id="card-name"></h3>
+        <p id="card-type"></p>
+        <p id="card-desc"></p>
+        <p id="card-atk-def"></p>
+    </div>
+
+    <script>
+        let selectedRect = null;
+        let allCards = [];
+        let nextRectId = 11; // ID per i prossimi rettangoli
+
+        // Quando un rettangolo viene cliccato, mostra la lista delle carte
+        function addRectClickListener(rect) {
+            rect.addEventListener('click', () => {
+                selectedRect = rect;
+                fetch('/get-cards')
+                    .then(response => response.json())
+                    .then(data => {
+                        allCards = data; // Salva tutte le carte per poter filtrare
+                        updateCardList(allCards); // Mostra la lista completa delle carte
+                        document.getElementById('card-list').style.display = 'block'; // Mostra la lista delle carte
+                    });
+            });
+        }
+
+        // Funzione per aggiornare la lista delle carte mostrata
+        function updateCardList(cards) {
+            const cardNamesUl = document.getElementById('card-names');
+            cardNamesUl.innerHTML = ''; // Pulisce la lista precedente
+
+            cards.forEach(card => {
+                const li = document.createElement('li');
+                li.textContent = card.name;
+                li.addEventListener('click', () => {
+                    // Visualizza l'immagine nel rettangolo
+                    selectedRect.innerHTML = `<img src="${card.card_images[0].image_url}" alt="${card.name}">`;
+
+                    // Mostra le informazioni della carta nel riquadro a destra
+                    document.getElementById('card-info').style.display = 'block';
+                    document.getElementById('card-name').textContent = card.name;
+                    document.getElementById('card-type').textContent = `Tipo: ${card.type}`;
+                    document.getElementById('card-desc').textContent = card.desc;
+                    document.getElementById('card-atk-def').textContent = `ATK: ${card.atk} / DEF: ${card.def}`;
+                });
+                cardNamesUl.appendChild(li);
+            });
+        }
+
+        // Aggiungi un listener alla barra di ricerca per filtrare le carte
+        const searchBar = document.getElementById('search-bar');
+        searchBar.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredCards = allCards.filter(card => card.name.toLowerCase().includes(searchTerm));
+            updateCardList(filteredCards); // Aggiorna la lista con i risultati filtrati
+        });
+
+        // Aggiungi una nuova board (nuova matrice di rettangoli) quando si clicca sul pulsante "+"
+        const addBoardBtn = document.getElementById('add-board-btn');
+        addBoardBtn.addEventListener('click', () => {
+            const boardContainer = document.getElementById('board-container');
+            const newGrid = document.createElement('div');
+            newGrid.classList.add('grid');
+
+            // Aggiungi 10 nuovi rettangoli alla nuova matrice (5x2)
+            for (let i = 0; i < 10; i++) {
+                const newRect = document.createElement('div');
+                newRect.classList.add('rect');
+                newRect.setAttribute('data-rect-id', nextRectId++);
+                addRectClickListener(newRect); // Aggiungi la stessa funzionalità ai nuovi rettangoli
+
+                // Aggiungi il nuovo rettangolo alla nuova griglia
+                newGrid.appendChild(newRect);
+            }
+
+            // Aggiungi la nuova matrice alla pagina
+            boardContainer.appendChild(newGrid);
+        });
+
+        // Aggiungi i listener per i rettangoli esistenti
+        const rects = document.querySelectorAll('.rect');
+        rects.forEach(addRectClickListener);
+    </script>
+
+</body>
+</html>

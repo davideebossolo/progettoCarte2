@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Manga Card Dropshipping</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 15px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        /* Barra di ricerca */
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px auto;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .search-container input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .search-container button {
+            padding: 10px;
+            background-color: #ff4081;
+            border: none;
+            color: #fff;
+            border-radius: 5px;
+            margin-left: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .search-container button:hover {
+            background-color: #e0336c;
+        }
+
+        /* Carosello */
+        .carousel {
+            width: 100%;
+            max-width: 100%;
+            margin: 20px auto;
+            overflow: hidden;
+            position: relative;
+            background-color: #fff;
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 10px;
+            animation: scroll 10s linear infinite;
+        }
+
+        .carousel-item {
+            flex: 0 0 auto;
+            width: 150px; /* Regola la dimensione delle immagini */
+            height: 100px;
+        }
+
+        .carousel-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        .hero {
+            background-image: url('exodia.jpg'); /* Placeholder image */
+            background-size: cover;
+            color: #fff;
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .hero h2 {
+            font-size: 3rem;
+            margin: 0;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+
+        .btn {
+            background-color: #ff4081;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .cards {
+            padding: 50px 0;
+            text-align: center;
+        }
+
+        .cards h3 {
+            font-size: 2rem;
+        }
+
+        .card-list {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 250px;
+        }
+
+        .card img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .card h4 {
+            margin-top: 10px;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <h1>MangaCardShop</h1>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Shop</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Barra di ricerca -->
+    <div class="search-container">
+        <input type="text" placeholder="Cerca in tutto il sito...">
+        <button>Cerca</button>
+    </div>
+
+    <!-- Carosello -->
+    <div class="carousel">
+        <div class="carousel-track">
+            <div class="carousel-item">
+                <img src="kuribosfera.JPG" alt="Manga Card 1">
+            </div>
+            <div class="carousel-item">
+                <img src="bustinaPM.JPG" alt="Manga Card 2">
+            </div>
+            <div class="carousel-item">
+                <img src="linkkuribo.JPG" alt="Manga Card 3">
+            </div>
+            <div class="carousel-item">
+                <img src="kuribosfera.JPG" alt="Manga Card 4">
+            </div>
+            <div class="carousel-item">
+                <img src="kuribosfera.JPG" alt="Manga Card 5">
+            </div>
+            <div class="carousel-item">
+                <img src="kuribosfera.JPG" alt="Manga Card 6">
+            </div>
+            <div class="carousel-item">
+                <img src="kuribosfera.JPG" alt="Manga Card 7">
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <section class="hero">
+            <h2>Welcome to MangaCardShop</h2>
+            <p>Discover the best Manga cards from our exclusive collection!</p>
+            <a href="#" class="btn">Shop Now</a>
+        </section>
+
+        <section class="cards">
+            <h3>Featured Cards</h3>
+            <div class="card-list">
+                <div class="card">
+                    <img src="kuribosfera.JPG" alt="Manga Card 1">
+                    <h4>Card Name 1</h4>
+                    <p>$9.99</p>
+                    <button class="btn">Buy Now</button>
+                </div>
+                <div class="card">
+                    <img src="bustinaPM.JPG" alt="Manga Card 2">
+                    <h4>Card Name 2</h4>
+                    <p>$14.99</p>
+                    <button class="btn">Buy Now</button>
+                </div>
+                <div class="card">
+                    <img src="kaiba.JPG" alt="Manga Card 3">
+                    <h4>Card Name 3</h4>
+                    <p>$19.99</p>
+                    <button class="btn">Buy Now</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 MangaCardShop - All Rights Reserved.</p>
+    </footer>
+</body>
+</html>

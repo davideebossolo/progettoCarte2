@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrice di Rettangoli 5x2 con Immagini</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(5, 100px); /* 5 colonne */
+            grid-template-rows: repeat(2, 150px);   /* 2 righe */
+            gap: 10px; /* Spazio tra i rettangoli */
+        }
+        .rect {
+            background-color: #3498db;
+            width: 100px;
+            height: 150px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .rect img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        input[type="file"] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Crea una matrice di 5x2 rettangoli -->
+        <div class="rect" data-id="1"></div>
+        <div class="rect" data-id="2"></div>
+        <div class="rect" data-id="3"></div>
+        <div class="rect" data-id="4"></div>
+        <div class="rect" data-id="5"></div>
+        <div class="rect" data-id="6"></div>
+        <div class="rect" data-id="7"></div>
+        <div class="rect" data-id="8"></div>
+        <div class="rect" data-id="9"></div>
+        <div class="rect" data-id="10"></div>
+    </div>
+
+    <!-- Elemento per selezionare un file immagine -->
+    <input type="file" id="fileInput" accept="image/jpeg">
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const rects = document.querySelectorAll('.rect');
+
+        rects.forEach(rect => {
+            rect.addEventListener('click', () => {
+                // Apri il selettore di file quando si clicca su un rettangolo
+                fileInput.click();
+
+                // Quando un file viene selezionato, carica l'immagine nel rettangolo cliccato
+                fileInput.onchange = function(event) {
+                    const file = event.target.files[0];
+                    if (file && file.type === "image/jpeg") {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            rect.innerHTML = `<img src="${e.target.result}" alt="Immagine">`;
+                        }
+                        reader.readAsDataURL(file);
+                    } else {
+                        alert("Per favore, seleziona un file JPG.");
+                    }
+                    // Resetta il valore del file input per permettere nuove selezioni
+                    fileInput.value = '';
+                };
+            });
+        });
+    </script>
+
+</body>
+</html>
